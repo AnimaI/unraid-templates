@@ -1,0 +1,84 @@
+<Container>
+  <Name>public-pool</Name>
+  <Repository>local/public-pool</Repository>
+  <Network>bridge</Network>
+  <WebUI>http://[IP]:[PORT:3334]</WebUI>
+  <Icon>https://raw.githubusercontent.com/AnimaI/public-pool-ui/master/src/favicon.ico</Icon>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+
+  <Project>https://github.com/AnimaI/public-pool</Project>
+  <Support>https://github.com/AnimaI/public-pool</Support>
+  <Overview>Self-hosted Bitcoin mining pool backend for Unraid</Overview>
+  <Category>Mining:Bitcoin</Category>
+
+  <Environment>
+    <Variable>
+      <Name>BITCOIN_RPC_URL</Name>
+      <Default></Default>
+      <Description>Bitcoin Node RPC URL (z.B. http://192.168.1.10)</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_RPC_USER</Name>
+      <Default></Default>
+      <Description>RPC Username</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_RPC_PASSWORD</Name>
+      <Default></Default>
+      <Description>RPC Password</Description>
+      <Required>true</Required>
+      <Mask>true</Mask>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_RPC_PORT</Name>
+      <Default>8332</Default>
+      <Description>Bitcoin RPC Port</Description>
+      <Required>false</Required>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_RPC_TIMEOUT</Name>
+      <Default>10000</Default>
+      <Description>RPC Timeout in ms</Description>
+      <Required>false</Required>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_ZMQ_HOST</Name>
+      <Default>tcp://your-node-ip:28334</Default>
+      <Description>ZMQ rawblock host (z.B. tcp://192.168.1.10:28334)</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>API_PORT</Name>
+      <Default>3334</Default>
+      <Description>Port für die API</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>STRATUM_PORT</Name>
+      <Default>19000</Default>
+      <Description>Port für Miner (Stratum)</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>POOL_IDENTIFIER</Name>
+      <Default>Unraid-Pool</Default>
+      <Description>Text im Coinbase-Script</Description>
+      <Required>false</Required>
+    </Variable>
+    <Variable>
+      <Name>NETWORK</Name>
+      <Default>mainnet</Default>
+      <Description>mainnet oder testnet</Description>
+      <Required>false</Required>
+    </Variable>
+    <Variable>
+      <Name>API_SECURE</Name>
+      <Default>false</Default>
+      <Description>HTTPS aktivieren (true/false)</Description>
+      <Required>false</Required>
+    </Variable>
+  </Environment>
+</Container>
