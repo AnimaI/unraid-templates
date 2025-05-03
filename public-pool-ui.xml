@@ -1,0 +1,47 @@
+<Container>
+  <Name>public-pool-ui</Name>
+  <Repository>local/public-pool-ui</Repository>
+  <Network>bridge</Network>
+  <WebUI>http://[IP]:[PORT:8080]</WebUI>
+  <Icon>https://raw.githubusercontent.com/AnimaI/public-pool-ui/master/src/favicon.ico</Icon>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+
+  <Project>https://github.com/AnimaI/public-pool-ui</Project>
+  <Support>https://github.com/AnimaI/public-pool-ui</Support>
+  <Overview>Frontend für den Public Pool (Dashboard, Statistik, UI)</Overview>
+  <Category>Mining:Bitcoin</Category>
+
+  <Environment>
+    <Variable>
+      <Name>UI_PORT</Name>
+      <Default>8080</Default>
+      <Description>Port für die Weboberfläche</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>API_PORT</Name>
+      <Default>3334</Default>
+      <Description>Port des API-Backends (public-pool)</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>API_HOST</Name>
+      <Default>host.docker.internal</Default>
+      <Description>Hostname oder IP des API-Backends</Description>
+      <Required>true</Required>
+    </Variable>
+    <Variable>
+      <Name>LOGLEVEL</Name>
+      <Default>info</Default>
+      <Description>Log-Level für Caddy</Description>
+      <Required>false</Required>
+    </Variable>
+    <Variable>
+      <Name>LOGFORMAT</Name>
+      <Default>json</Default>
+      <Description>Log-Format für Caddy</Description>
+      <Required>false</Required>
+    </Variable>
+  </Environment>
+</Container>
