@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>public-pool</Name>
-  <Repository>anima1/public-pool</Repository>
-  <Registry>https://github.com/AnimaI/public-pool</Registry>
-  <Network>br0</Network>
-  <MyIP/>
+  <Repository>anima1/public-pool-stack</Repository>
+  <Registry>https://hub.docker.com/r/anima1/public-pool-stack</Registry>
+  <Network>bridge</Network>
   <Shell>bash</Shell>
   <Privileged>false</Privileged>
   <Support>https://github.com/AnimaI/unraid-templates/issues</Support>
@@ -13,10 +12,8 @@
   <Category>Tools:Network:Crypto</Category>
   <WebUI>http://[IP]:[PORT:3000]</WebUI>
   <Icon>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/icon.png</Icon>
-  
-  <!-- Networking -->
   <Networking>
-    <Mode>br0</Mode>
+    <Mode>bridge</Mode>
     <Publish>
       <Port>
         <HostPort>19000</HostPort>
@@ -35,8 +32,6 @@
       </Port>
     </Publish>
   </Networking>
-
-  <!-- Volumes -->
   <Data>
     <Volume>
       <HostDir>/mnt/user/appdata/public-pool</HostDir>
@@ -44,8 +39,6 @@
       <Mode>rw</Mode>
     </Volume>
   </Data>
-
-  <!-- Environment Variables -->
   <Config Name="Bitcoin RPC URL" Target="BITCOIN_RPC_URL" Default="http://192.168.1.100" Mode="text" Description="URL deiner Bitcoin Node (z.B. http://192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.100</Config>
   <Config Name="Bitcoin RPC User" Target="BITCOIN_RPC_USER" Default="rpcuser" Mode="text" Description="Benutzername aus deiner bitcoin.conf" Type="Variable" Display="always" Required="true" Mask="false">rpcuser</Config>
   <Config Name="Bitcoin RPC Password" Target="BITCOIN_RPC_PASSWORD" Default="rpcpassword" Mode="text" Description="Passwort aus deiner bitcoin.conf" Type="Variable" Display="always" Required="true" Mask="true">rpcpassword</Config>
