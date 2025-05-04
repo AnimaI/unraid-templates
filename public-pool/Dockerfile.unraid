@@ -1,19 +1,46 @@
 ############################
-# Docker build environment #
+# Build public-pool backend
 ############################
 
-FROM node:lts-bookworm-slim AS build
+FROM node:lts-bookworm-slim AS backend
 
-# Tools installieren
+WORKDIR /app
+
+# Systemabhängigkeiten
+RUN apt-get update && apt-get install -y \
+  python3 \
+  build-essential \
+  curl \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Kopiere Backend-Repo
+COPY ./public-pool /app
+
+# Hole vorbereitete .env von deinem Template-Repo
+RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/.env.tpl \
+    -o .env
+
+# Installiere Backend-Abhängigkeiten
+RUN npm install
+
+############################
+# Build public-pool-ui frontend
+############################
+
+FROM node:lts-bookworm-slim AS frontend
+
+WORKDIR /build
+
 RUN apt-get update && apt-get install -y \
   curl \
   build-essential \
   python3 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-WORKDIR /build
+# Kopiere UI-Repo
+COPY ./public-pool-ui /build
 
-# Hole die Platzhalter-Dateien von deinem unraid-templates-Repo
+# Lade und ersetze Platzhalter-Konfigs aus Template-Repo
 RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/proxy.config.prod.json.tpl \
     -o ./proxy.config.prod.json && \
     curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/proxy.config.local.json.tpl \
@@ -23,22 +50,23 @@ RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/pub
     curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/environment.ts.tpl \
     -o ./src/environments/environment.ts
 
-# Kopiere restlichen Code (dein Fork) ins Image
-COPY . .
-
-# Baue Angular UI
+# Build der UI
 RUN npm install && npm run build
 
 ############################
-# Docker final environment #
+# Final runtime: Caddy + public-pool
 ############################
 
 FROM caddy:alpine AS final
 
+# Kopiere UI ins Webverzeichnis
 WORKDIR /var/www/html
+COPY --from=frontend /build/dist/public-pool-ui .
 
-COPY --from=build /build/dist/public-pool-ui .
+# Kopiere public-pool Backend (als Service)
+WORKDIR /app
+COPY --from=backend /app /app
 
-# Starte Caddy statisch
+# Starte beide via supervisord oder Entrypoint (optional) – hier nur Webserver
 EXPOSE 80
 CMD ["caddy", "file-server", "--root", "/var/www/html", "--browse"]
