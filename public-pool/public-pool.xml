@@ -11,7 +11,7 @@
   <Project>https://github.com/benjamin-wilson/public-pool</Project>
   <Overview>Run your own solo MINING POOL with web UI using public-pool &amp; public-pool-ui. This Unraid template supports custom IP, ports, and direct Bitcoin node integration.</Overview>
   <Category>Tools:Utilities Network:Other Crypto:</Category>
-  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <WebUI>http://[IP]:[PORT:UI_PORT]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/public-pool.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/img/public-pool.png</Icon>
   <ExtraParams/>
