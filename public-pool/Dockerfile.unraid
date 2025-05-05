@@ -1,72 +1,68 @@
-############################
-# Build public-pool backend
-############################
-
+# ┌────────────────────────────────────┐
+# │     Build stage: public-pool      │
+# └────────────────────────────────────┘
 FROM node:lts-bookworm-slim AS backend
 
 WORKDIR /app
 
-# Systemabhängigkeiten
 RUN apt-get update && apt-get install -y \
+  git \
   python3 \
   build-essential \
   curl \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Kopiere Backend-Repo
-COPY ./public-pool /app
-
-# Hole vorbereitete .env von deinem Template-Repo
-RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/.env.tpl \
-    -o .env
+# Klone das Backend aus deinem GitHub-Fork
+RUN git clone https://github.com/AnimaI/public-pool.git .
 
 # Installiere Backend-Abhängigkeiten
 RUN npm install
 
-############################
-# Build public-pool-ui frontend
-############################
 
+# ┌────────────────────────────────────┐
+# │   Build stage: public-pool-ui     │
+# └────────────────────────────────────┘
 FROM node:lts-bookworm-slim AS frontend
 
 WORKDIR /build
 
 RUN apt-get update && apt-get install -y \
+  git \
   curl \
   build-essential \
   python3 \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Kopiere UI-Repo
-COPY ./public-pool-ui /build
+# Klone das Frontend aus deinem GitHub-Fork
+RUN git clone https://github.com/AnimaI/public-pool-ui.git .
 
-# Lade und ersetze Platzhalter-Konfigs aus Template-Repo
-RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/proxy.config.prod.json.tpl \
-    -o ./proxy.config.prod.json && \
-    curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/proxy.config.local.json.tpl \
-    -o ./proxy.config.local.json && \
-    curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/environment.prod.ts.tpl \
-    -o ./src/environments/environment.prod.ts && \
-    curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/main/public-pool/environment.ts.tpl \
-    -o ./src/environments/environment.ts
+# Hole TPLs aus dem Template-Repo (Umgebungsdateien und Konfigs)
+RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/environment.prod.ts.tpl -o ./src/environments/environment.prod.ts && \
+    curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/environment.ts.tpl -o ./src/environments/environment.ts && \
+    curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/proxy.config.local.json.tpl -o ./proxy.config.local.json && \
+    curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/proxy.config.prod.json.tpl -o ./proxy.config.prod.json
 
-# Build der UI
+# Build UI
 RUN npm install && npm run build
 
-############################
-# Final runtime: Caddy + public-pool
-############################
 
-FROM caddy:alpine AS final
+# ┌────────────────────────────────────┐
+# │           Final Image             │
+# └────────────────────────────────────┘
+FROM node:lts-bookworm-slim
 
-# Kopiere UI ins Webverzeichnis
-WORKDIR /var/www/html
-COPY --from=frontend /build/dist/public-pool-ui .
-
-# Kopiere public-pool Backend (als Service)
 WORKDIR /app
+
+# Kopiere Backend aus vorherigem Stage
 COPY --from=backend /app /app
 
-# Starte beide via supervisord oder Entrypoint (optional) – hier nur Webserver
-EXPOSE 80
-CMD ["caddy", "file-server", "--root", "/var/www/html", "--browse"]
+# Kopiere Frontend (dist build) in /app/ui
+COPY --from=frontend /build/dist/public-pool-ui /app/ui
+
+# Hole entrypoint.sh vom Template-Repo
+RUN curl -sSL https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/entrypoint.sh -o /entrypoint.sh && \
+    chmod +x /entrypoint.sh
+
+EXPOSE 8080 3333 3334
+
+ENTRYPOINT ["/entrypoint.sh"]
