@@ -30,11 +30,18 @@ FROM node:lts-bookworm
 
 WORKDIR /app
 
-# Backend + Frontend übernehmen
+# Backend
 COPY --from=backend /app /app
-COPY --from=frontend /build/dist/public-pool-ui /app/ui
-COPY entrypoint.sh /entrypoint.sh
 
+# UI static build
+COPY --from=frontend /build/dist/public-pool-ui /app/ui
+
+# TPLs die entrypoint.sh braucht
+COPY --from=frontend /build/proxy.config.*.tpl /app/ui/
+COPY --from=frontend /build/src/environments/*.tpl /app/ui/src/environments/
+
+# Entrypoint
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 3333 3334 8080
