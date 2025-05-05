@@ -21,17 +21,20 @@
   <DonateText>If you appreciate my work, then please consider buying me a beer :D</DonateText>
   <DonateLink>https://www.paypal.com/donate/?hosted_button_id=8L2DNWLVUFNGJ</DonateLink>
   <Requires/>
-  <Config Name="AppData Pfad (Persistente Daten)" Target="/app/data" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Pfad, in dem Public Pool seine Daten speichert (z. B. Shares, Worker-Daten, Stats)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
-  <Config Name="Stratum Port" Target="STRATUM_PORT" Default="3333" Mode="tcp" Description="Port für Miner (z. B. 3333) → stratum+tcp://[IP]:3333" Type="Port" Display="always" Required="true" Mask="false">3333</Config>
-  <Config Name="API Port" Target="API_PORT" Default="3334" Mode="tcp" Description="Port für Public Pool API (z. B. 3334)" Type="Port" Display="always" Required="true" Mask="false">3334</Config>
-  <Config Name="Web UI Port" Target="UI_PORT" Default="8080" Mode="tcp" Description="Port für Webinterface (z. B. 8080)" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
-  <Config Name="Bitcoin RPC URL" Target="BITCOIN_RPC_URL" Default="http://192.168.1.100" Mode="text" Description="URL zur Bitcoin Node (z. B. http://192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.100</Config>
-  <Config Name="Bitcoin RPC User" Target="BITCOIN_RPC_USER" Default="rpcuser" Mode="text" Description="Benutzername aus deiner bitcoin.conf" Type="Variable" Display="always" Required="true" Mask="false">rpcuser</Config>
-  <Config Name="Bitcoin RPC Password" Target="BITCOIN_RPC_PASSWORD" Default="rpcpassword" Mode="text" Description="Passwort aus deiner bitcoin.conf" Type="Variable" Display="always" Required="true" Mask="true">rpcpassword</Config>
-  <Config Name="Bitcoin RPC Port" Target="BITCOIN_RPC_PORT" Default="8332" Mode="text" Description="RPC-Port der Node (Standard: 8332)" Type="Variable" Display="always" Required="true" Mask="false">8332</Config>
-  <Config Name="Bitcoin ZMQ Host" Target="BITCOIN_ZMQ_HOST" Default="tcp://192.168.1.100:28334" Mode="text" Description="ZMQ-Adresse deiner Node (z. B. tcp://192.168.1.100:28334)" Type="Variable" Display="always" Required="true" Mask="false">tcp://192.168.1.100:28334</Config>
-  <Config Name="Bitcoin RPC Timeout" Target="BITCOIN_RPC_TIMEOUT" Default="10000" Mode="text" Description="RPC-Timeout in ms (Standard: 10000)" Type="Variable" Display="advanced" Required="false" Mask="false">10000</Config>
-  <Config Name="Pool Identifier" Target="POOL_IDENTIFIER" Default="Unraid-Pool" Mode="text" Description="Name für den Pool (z. B. Heim-Pool)" Type="Variable" Display="advanced" Required="false" Mask="false">Unraid-Pool</Config>
-  <Config Name="Netzwerkmodus" Target="NETWORK" Default="mainnet" Mode="text" Description="mainnet oder testnet" Type="Variable" Display="always" Required="true" Mask="false">mainnet</Config>
-  <Config Name="HTTPS für API" Target="API_SECURE" Default="false" Mode="text" Description="API via HTTPS aktivieren (true/false)" Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="AppData Pfad (Persistente Daten)" Target="/mnt/user/appdata/" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Directory where Public Pool stores shares, stats and worker data.&#xD;(e.g. Shares, Worker-Daten, Stats)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
+  <Config Name="Stratum Port" Target="STRATUM_PORT" Default="3333" Mode="tcp" Description="Port for miners to connect (e.g. stratum+tcp://[IP]:3333)" Type="Port" Display="always" Required="true" Mask="false">3333</Config>
+  <Config Name="API Port" Target="API_PORT" Default="3334" Mode="tcp" Description="(default: 3334)&#xD;Public-Pool API port. Change only if you know what you are doing." Type="Port" Display="always" Required="true" Mask="false">3334</Config>
+  <Config Name="Web UI Port" Target="UI_PORT" Default="8080" Mode="tcp" Description="Public-Pool WebUI port (e.g. http://[IP]:8080)" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="Bitcoin RPC URL" Target="BITCOIN_RPC_URL" Default="http://192.168.1.100" Mode="text" Description="RPC-url of your bitcoind (bitcoin.conf)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.100</Config>
+  <Config Name="Bitcoin RPC Port" Target="BITCOIN_RPC_PORT" Default="8332" Mode="text" Description="RPC-port of your bitcoind (bitcoin.conf)    
+   (default: 8332)" Type="Variable" Display="always" Required="true" Mask="false">8332</Config>
+  <Config Name="Bitcoin RPC User" Target="BITCOIN_RPC_USER" Default="rpcuser" Mode="text" Description="RPC-username of your bitcoind (bitcoin.conf)" Type="Variable" Display="always" Required="true" Mask="false">rpcuser</Config>
+  <Config Name="Bitcoin RPC Password" Target="BITCOIN_RPC_PASSWORD" Default="rpcpassword" Mode="text" Description="RPC-password of your bitcoind (bitcoin.conf)" Type="Variable" Display="always" Required="true" Mask="true">rpcpassword</Config>
+  <Config Name="Bitcoin ZMQ Host" Target="BITCOIN_ZMQ_HOST" Default="tcp://192.168.1.100:28334" Mode="text" Description="ZMQ-address of your bitcoind (bitcoin.conf)    
+    (e.g. tcp://[IP]:[PORT]" Type="Variable" Display="always" Required="true" Mask="false">tcp://192.168.1.100:28334</Config>
+  <Config Name="Bitcoin RPC Timeout" Target="BITCOIN_RPC_TIMEOUT" Default="10000" Mode="text" Description="RPC timeout in ms (default: 10000)" Type="Variable" Display="advanced" Required="false" Mask="false">10000</Config>
+  <Config Name="Pool Identifier" Target="POOL_IDENTIFIER" Default="public-pool" Mode="text" Description="Label for your pool (e.g. Home-Pool, Unraid-Pool, ...)" Type="Variable" Display="advanced" Required="false" Mask="false">public-pool</Config>
+  <Config Name="Netzwerkmodus" Target="NETWORK" Default="mainnet" Mode="text" Description="Bitcoin network to use (mainnet or testnet)" Type="Variable" Display="always" Required="true" Mask="false">mainnet</Config>
+  <Config Name="Enable HTTPS for API" Target="API_SECURE" Default="false" Mode="text" Description="Set to 'true' to enable HTTPS. Default is 'false' (HTTP only).    
+    Enable only if you have a proper reverse proxy or certificate setup.&#xD;Only enable HTTPS if you know what you’re doing." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
 </Container>
