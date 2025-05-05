@@ -36,14 +36,18 @@ FROM node:lts-bookworm AS final
 
 WORKDIR /app
 
-# Copy backend and frontend output
+# Installiere envsubst (aus gettext-base)
+RUN apt-get update && \
+    apt-get install -y gettext-base && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy backend & frontend
 COPY --from=backend /app /app
 COPY --from=frontend /build/dist/public-pool-ui /app/ui
 COPY --from=frontend /build/proxy.config.*.tpl /app/ui/
 COPY --from=frontend /build/src/environments/*.tpl /app/ui/src/environments/
 COPY entrypoint.sh /entrypoint.sh
 
-RUN apt-get update && apt-get install -y gettext-base && rm -rf /var/lib/apt/lists/*
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 3333 3334 8080
