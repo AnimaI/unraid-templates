@@ -2,8 +2,8 @@
 <Container version="2">
   <Name>public-pool</Name>
   <Repository>animaI/public-pool</Repository>
-  <Registry>ttps://hub.docker.com/r/d0ooo/public-pool</Registry>
-  <Network>host</Network>
+  <Registry>https://github.com/AnimaI/unraid-templates/tree/master/public-pool</Registry>
+  <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
