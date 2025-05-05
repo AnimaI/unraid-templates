@@ -21,7 +21,9 @@
   <DonateText>If you appreciate my work, then please consider buying me a beer :D</DonateText>
   <DonateLink>https://www.paypal.com/donate/?hosted_button_id=8L2DNWLVUFNGJ</DonateLink>
   <Requires/>
-  <Config Name="AppData Pfad (Persistente Daten)" Target="/mnt/user/appdata/" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Directory where Public Pool stores shares, stats and worker data.&#xD;(e.g. Shares, Worker-Daten, Stats)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
+  <Config Name="AppData Pfad (Persistente Daten)" Target="/mnt/user/appdata/" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Directory where Public Pool stores shares, stats and worker data.&#xD;
+    &#xD;
+    (e.g. Shares, Worker-Daten, Stats)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
   <Config Name="Stratum Port" Target="STRATUM_PORT" Default="3333" Mode="tcp" Description="Port for miners to connect (e.g. stratum+tcp://[IP]:3333)" Type="Port" Display="always" Required="true" Mask="false">3333</Config>
   <Config Name="API Port" Target="API_PORT" Default="3334" Mode="tcp" Description="(default: 3334)&#xD;Public-Pool API port. Change only if you know what you are doing." Type="Port" Display="always" Required="true" Mask="false">3334</Config>
   <Config Name="Web UI Port" Target="UI_PORT" Default="8080" Mode="tcp" Description="Public-Pool WebUI port (e.g. http://[IP]:8080)" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
