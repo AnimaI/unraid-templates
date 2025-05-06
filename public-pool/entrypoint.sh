@@ -1,12 +1,34 @@
 #!/bin/bash
+set -e
 
-# Konfiguration ersetzen
-envsubst < /app/.env.tpl > /app/.env
-envsubst < /app/ui/proxy.config.prod.json.tpl > /app/ui/proxy.config.prod.json
-envsubst < /app/ui/proxy.config.local.json.tpl > /app/ui/proxy.config.local.json
-envsubst < /app/ui/src/environments/environment.ts.tpl > /app/ui/src/environments/environment.ts
-envsubst < /app/ui/src/environments/environment.prod.ts.tpl > /app/ui/src/environments/environment.prod.ts
+# Configure Caddy for the UI
+cat > /etc/Caddyfile << EOF
+:${UI_PORT} {
+    root * /var/www/html
+    file_server
+    
+    # Redirect API requests to the backend
+    handle /api/* {
+        reverse_proxy localhost:${API_PORT}
+    }
+    
+    # For SPA routing
+    handle_errors {
+        @404 {
+            expression {http.error.status_code} == 404
+        }
+        rewrite @404 /index.html
+    }
+}
+EOF
 
-# Starten
+# Configure the UI with the correct backend URLs
+sed -i "s|API_URL:.*|API_URL: 'http://localhost:${API_PORT}',|g" /var/www/html/main.*.js
+sed -i "s|STRATUM_URL:.*|STRATUM_URL: 'localhost:${STRATUM_PORT}'|g" /var/www/html/main.*.js
+
+echo "Starting Caddy webserver..."
+caddy start --config /etc/Caddyfile
+
+echo "Starting Public-Pool backend..."
 cd /app
-exec npm start
+exec node dist/main.js
