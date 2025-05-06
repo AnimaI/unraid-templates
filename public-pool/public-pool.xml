@@ -43,7 +43,8 @@
   </Networking>
 
   <Config Name="AppData Path (persistent data)" Target="/app/data" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Directory where Public Pool stores shares, stats and worker data." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
-
+  <Config Name="Database Path" Target="/app/mainnet-DB" Default="/mnt/user/appdata/public-pool/mainnet-DB" Mode="rw" Description="Directory where the SQLite database is stored." Type="Path" Display="advanced" Required="true" Mask="false">/mnt/user/appdata/public-pool/mainnet-DB</Config>
+  
   <Config Name="Web UI Port" Target="UI_PORT" Default="8080" Mode="text" Description="Port for the web UI (default: 8080)" Type="Variable" Display="always" Required="true" Mask="false">8080</Config>
   <Config Name="Bitcoin RPC URL" Target="BITCOIN_RPC_URL" Default="http://192.168.1.100" Mode="text" Description="RPC URL of your Bitcoin node (e.g. http://192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.100</Config>
   <Config Name="Bitcoin RPC Port" Target="BITCOIN_RPC_PORT" Default="8332" Mode="text" Description="RPC port of your Bitcoin node (default: 8332)" Type="Variable" Display="always" Required="true" Mask="false">8332</Config>
