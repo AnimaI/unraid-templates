@@ -19,6 +19,8 @@ RUN git clone https://github.com/AnimaI/public-pool.git .
 # Build the backend
 RUN npm ci && npm run build
 
+RUN ls -la /build-backend/dist/ || echo "FEHLER: /build-backend/dist/ existiert nicht oder ist leer"
+
 # Stage 3: Final image
 FROM node:lts-slim
 
