@@ -26,8 +26,17 @@ EOF
 sed -i "s|API_URL:.*|API_URL: 'http://localhost:${API_PORT}',|g" /var/www/html/main.*.js
 sed -i "s|STRATUM_URL:.*|STRATUM_URL: 'localhost:${STRATUM_PORT}'|g" /var/www/html/main.*.js
 
-# Replace the hardcoded public-pool.io URL
+# Replace all instances of public-pool.io with the EXTERNAL_IP
 sed -i "s|https://public-pool.io:40557|http://${EXTERNAL_IP}:${API_PORT}|g" /var/www/html/main.*.js
+sed -i "s|http://public-pool.io:40557|http://${EXTERNAL_IP}:${API_PORT}|g" /var/www/html/main.*.js
+sed -i "s|//public-pool.io:40557|//${EXTERNAL_IP}:${API_PORT}|g" /var/www/html/main.*.js
+
+# Replace stratum URLs
+sed -i "s|stratum+tcp://public-pool.io:21496|stratum+tcp://${EXTERNAL_IP}:${STRATUM_PORT}|g" /var/www/html/main.*.js
+sed -i "s|public-pool.io:21496|${EXTERNAL_IP}:${STRATUM_PORT}|g" /var/www/html/main.*.js
+
+# Replace any other references to public-pool.io
+sed -i "s|public-pool.io|${EXTERNAL_IP}|g" /var/www/html/main.*.js
 
 echo "Starting Caddy webserver..."
 caddy start --config /etc/Caddyfile
