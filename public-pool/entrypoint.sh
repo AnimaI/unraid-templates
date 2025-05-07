@@ -27,7 +27,6 @@ sed -i "s|API_URL:.*|API_URL: 'http://localhost:${API_PORT}',|g" /var/www/html/m
 sed -i "s|STRATUM_URL:.*|STRATUM_URL: 'localhost:${STRATUM_PORT}'|g" /var/www/html/main.*.js
 
 # Replace the hardcoded public-pool.io URL
-#sed -i "s|https://public-pool.io:40557|http://localhost:${API_PORT}|g" /var/www/html/main.*.js
 sed -i "s|https://public-pool.io:40557|http://${EXTERNAL_IP}:${API_PORT}|g" /var/www/html/main.*.js
 
 echo "Starting Caddy webserver..."
