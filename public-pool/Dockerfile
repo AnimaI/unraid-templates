@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y curl gnupg \
 WORKDIR /app
 
 # Copy the built backend component
-COPY --from=backend-build /build-backend/dist /app/
+COPY --from=backend-build /build-backend/dist /app/dist/
 COPY --from=backend-build /build-backend/node_modules /app/node_modules
 COPY --from=backend-build /build-backend/package.json /app/
 
@@ -63,6 +63,9 @@ ENV BITCOIN_RPC_TIMEOUT=10000
 ENV NETWORK=mainnet
 ENV API_SECURE=false
 ENV POOL_IDENTIFIER=public-pool
+
+# Add EXTERNAL_IP as environment variable
+ENV EXTERNAL_IP=192.168.1.100
 
 # Ports exposed
 EXPOSE 3333 3334 8080
