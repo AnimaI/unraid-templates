@@ -1,6 +1,19 @@
 #!/bin/bash
 set -e
 
+# Determine the container's IP address based on network configuration
+if [ -z "$EXTERNAL_IP" ]; then
+  # If EXTERNAL_IP is not set, try to detect it
+  CONTAINER_IP=$(hostname -i)
+  if [ "$CONTAINER_IP" = "127.0.0.1" ] || [ -z "$CONTAINER_IP" ]; then
+    # If hostname -i returns localhost, try another method
+    CONTAINER_IP=$(ip route get 1 | awk '{print $NF;exit}')
+  fi
+  EXTERNAL_IP=${CONTAINER_IP}
+fi
+
+echo "Using external IP: ${EXTERNAL_IP}"
+
 # Configure Caddy for the UI
 cat > /etc/Caddyfile << EOF
 :${UI_PORT} {
@@ -23,8 +36,8 @@ cat > /etc/Caddyfile << EOF
 EOF
 
 # Configure the UI with the correct backend URLs
-sed -i "s|API_URL:.*|API_URL: 'http://localhost:${API_PORT}',|g" /var/www/html/main.*.js
-sed -i "s|STRATUM_URL:.*|STRATUM_URL: 'localhost:${STRATUM_PORT}'|g" /var/www/html/main.*.js
+sed -i "s|API_URL:.*|API_URL: 'http://${EXTERNAL_IP}:${API_PORT}',|g" /var/www/html/main.*.js
+sed -i "s|STRATUM_URL:.*|STRATUM_URL: '${EXTERNAL_IP}:${STRATUM_PORT}'|g" /var/www/html/main.*.js
 
 # Replace all instances of public-pool.io with the EXTERNAL_IP
 sed -i "s|https://public-pool.io:40557|http://${EXTERNAL_IP}:${API_PORT}|g" /var/www/html/main.*.js
