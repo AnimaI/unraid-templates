@@ -32,7 +32,7 @@ The ports shown below (3333, 3334, 8080) are used internally and can be mapped t
 
   <!-- Data Paths -->
   <Config Name="AppData Path (persistent data)" Target="/app/data" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Directory where Public Pool stores shares, stats and worker data." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
-  <Config Name="Database Path" Target="/app/mainnet-DB" Default="/mnt/user/appdata/public-pool/mainnet-DB" Mode="rw" Description="Directory where the SQLite database is stored." Type="Path" Display="advanced" Required="true" Mask="false">/mnt/user/appdata/public-pool/mainnet-DB</Config>
+  <Config Name="Database Path" Target="/app/mainnet-DB" Default="/mnt/user/appdata/public-pool/mainnet-DB" Mode="rw" Description="Directory where the SQLite database is stored." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool/mainnet-DB</Config>
   
   <!-- Port Configurations -->
   <Config Name="Stratum Port" Target="3333" Default="3333" Mode="tcp" Description="Mining port for stratum connections. Miners will connect to YOUR-EXTERNAL-IP:3333 (or the port you map this to)" Type="Port" Display="always" Required="true" Mask="false">3333</Config>
