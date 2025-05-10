@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>public-pool</Name>
-  <Repository>d0ooo/public-pool</Repository>
+  <Repository>animai/public-pool</Repository>
   <Registry>https://github.com/AnimaI/unraid-templates/tree/master/public-pool</Registry>
   <Network>bridge</Network>
   <MyIP/>
