@@ -1,17 +1,18 @@
 name: Build bitcoind Docker image
-on:  
+on:
+  workflow_dispatch:  # Manueller Trigger
   push:
     branches:
       - master
     paths:
       - 'bitcoind/**'
-      - '.github/workflows/build-bitcoind.yml'
+      - '.github/workflows/build_bitcoind.yml'  # Korrigierter Dateiname
   pull_request:
     branches:
       - master
     paths:
       - 'bitcoind/**'
-      - '.github/workflows/build-bitcoind.yml'
+      - '.github/workflows/build_bitcoind.yml'  # Korrigierter Dateiname
 env:
   DOCKER_CLI_EXPERIMENTAL: enabled
 jobs:
