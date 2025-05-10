@@ -14,7 +14,7 @@ FROM node:lts-slim AS backend-build
 
 WORKDIR /build-backend
 # Clone the backend repository
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git python3 python3-pip build-essential
 RUN git clone https://github.com/AnimaI/public-pool.git .
 # Build the backend
 RUN npm ci && npm run build
