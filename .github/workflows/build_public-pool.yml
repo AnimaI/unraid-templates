@@ -1,0 +1,58 @@
+name: Build public-pool Docker image
+on:  
+  push:
+    branches:
+      - master
+    paths:
+      - 'public-pool/**'
+      - '.github/workflows/build-public-pool.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'public-pool/**'
+      - '.github/workflows/build-public-pool.yml'
+env:
+  DOCKER_CLI_EXPERIMENTAL: enabled
+jobs:
+  build:
+    name: Build public-pool image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+      - name: Checkout project
+        uses: actions/checkout@v3
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        id: qemu
+      
+      - name: Setup Docker buildx action
+        uses: docker/setup-buildx-action@v2
+        id: buildx
+      
+      - name: Show available Docker buildx platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      
+      - name: Test build in x64
+        run: |
+          cd public-pool
+          docker buildx build \
+          --platform linux/amd64 \
+          --tag ${{ secrets.DOCKER_USERNAME }}/public-pool:test \
+          --output "type=docker" .
+      
+      - name: Test build works
+        run: |
+          docker run --rm ${{ secrets.DOCKER_USERNAME }}/public-pool:test node --version
+      
+      - name: Build multiarch and push to Docker Hub
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          cd public-pool
+          docker buildx build \
+          --platform $(cat PLATFORMS | tr '\n' ',') \
+          --tag ${{ secrets.DOCKER_USERNAME }}/public-pool:latest \
+          --output "type=registry" .
