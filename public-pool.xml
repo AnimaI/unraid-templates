@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>public-pool</Name>
+  <Repository>d0ooo/public-pool</Repository>
+  <Registry>https://github.com/AnimaI/unraid-templates/tree/master/public-pool</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://forums.unraid.net/topic/112959-support-animal-templates-repo/</Support>
+  <Project>https://github.com/benjamin-wilson/public-pool</Project>
+  <Overview>Run your own solo MINING POOL with web UI using public-pool &amp; public-pool-ui. This Unraid template supports custom IP, ports, and direct Bitcoin node integration.
+
+***** IMPORTANT NETWORK INFORMATION: *****
+The External IP Address field must be set to the IP address where miners will connect to your pool.
+- If using bridge network (default): This should be your unRAID server's IP address
+- If using host network: This should be your unRAID server's IP address
+- If using custom network: This should be the IP you assigned to the container
+
+The ports shown below (3333, 3334, 8080) are used internally and can be mapped to different ports on your host if needed. Standard web UI access will be http://YOUR-UNRAID-IP:8080
+</Overview>
+  <Category>Tools:Utilities Network:Other Crypto:</Category>
+  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/public-pool.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/img/public-pool.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DonateText>If you appreciate my work, then please consider buying me a beer :D</DonateText>
+  <DonateLink>https://www.paypal.com/donate/?hosted_button_id=8L2DNWLVUFNGJ</DonateLink>
+  <Requires/>
+
+  <!-- Data Paths -->
+  <Config Name="AppData Path (persistent data)" Target="/app/data" Default="/mnt/user/appdata/public-pool" Mode="rw" Description="Directory where Public Pool stores shares, stats and worker data." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool</Config>
+  <Config Name="Database Path" Target="/app/mainnet-DB" Default="/mnt/user/appdata/public-pool/mainnet-DB" Mode="rw" Description="Directory where the SQLite database is stored." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/public-pool/mainnet-DB</Config>
+  
+  <!-- Port Configurations -->
+  <Config Name="Stratum Port" Target="3333" Default="3333" Mode="tcp" Description="Mining port for stratum connections. Miners will connect to YOUR-EXTERNAL-IP:3333 (or the port you map this to)" Type="Port" Display="always" Required="true" Mask="false">3333</Config>
+  <Config Name="API Port" Target="3334" Default="3334" Mode="tcp" Description="API port for backend services" Type="Port" Display="always" Required="true" Mask="false">3334</Config>
+  <Config Name="Web UI Port" Target="8080" Default="8080" Mode="tcp" Description="Port for the web UI. Access via http://YOUR-EXTERNAL-IP:8080 (or the port you map this to)" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  
+  <!-- Bitcoin Configuration -->
+  <Config Name="Bitcoin RPC URL" Target="BITCOIN_RPC_URL" Default="http://192.168.1.100" Mode="text" Description="RPC URL of your Bitcoin node (e.g. http://192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.100</Config>
+  <Config Name="Bitcoin RPC Port" Target="BITCOIN_RPC_PORT" Default="8332" Mode="text" Description="RPC port of your Bitcoin node (default: 8332)" Type="Variable" Display="always" Required="true" Mask="false">8332</Config>
+  <Config Name="Bitcoin RPC User" Target="BITCOIN_RPC_USER" Default="rpcuser" Mode="text" Description="Username defined in your bitcoin.conf" Type="Variable" Display="always" Required="true" Mask="false">rpcuser</Config>
+  <Config Name="Bitcoin RPC Password" Target="BITCOIN_RPC_PASSWORD" Default="rpcpassword" Mode="text" Description="Password defined in your bitcoin.conf" Type="Variable" Display="always" Required="true" Mask="true">rpcpassword</Config>
+  <Config Name="Bitcoin ZMQ Host" Target="BITCOIN_ZMQ_HOST" Default="tcp://192.168.1.100:28334" Mode="text" Description="ZMQ address of your Bitcoin node (e.g. tcp://192.168.1.100:28334)" Type="Variable" Display="always" Required="true" Mask="false">tcp://192.168.1.100:28334</Config>
+  <Config Name="Bitcoin RPC Timeout" Target="BITCOIN_RPC_TIMEOUT" Default="10000" Mode="text" Description="RPC timeout in ms (default: 10000)" Type="Variable" Display="advanced" Required="false" Mask="false">10000</Config>
+
+  <!-- Pool Configuration -->
+  <Config Name="External IP Address" Target="EXTERNAL_IP" Default="192.168.1.100" Mode="text" Description="IMPORTANT: Set this to YOUR unRAID server's IP address (or the IP where miners will connect). Required for UI to display miners correctly." Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="Pool Identifier" Target="POOL_IDENTIFIER" Default="public-pool" Mode="text" Description="Custom name for your pool (e.g. Home-Pool, Unraid-Pool)" Type="Variable" Display="advanced" Required="false" Mask="false">public-pool</Config>
+  <Config Name="Bitcoin Network" Target="NETWORK" Default="mainnet" Mode="text" Description="Bitcoin network to use (mainnet or testnet)" Type="Variable" Display="always" Required="true" Mask="false">mainnet</Config>
+  <Config Name="Enable HTTPS for API" Target="API_SECURE" Default="false" Mode="text" Description="Set to 'true' to enable HTTPS. Default is 'false' (HTTP only). Enable only if you have a proper reverse proxy or certificate setup. Only enable HTTPS if you know what you're doing." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+</Container>
