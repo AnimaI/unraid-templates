@@ -6,13 +6,13 @@ on:
       - master
     paths:
       - 'public-pool/**'
-      - '.github/workflows/build_public-pool.yml'  # Korrigierter Dateiname
+      - '.github/workflows/build_public-pool.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'public-pool/**'
-      - '.github/workflows/build_public-pool.yml'  # Korrigierter Dateiname
+      - '.github/workflows/build_public-pool.yml'
 env:
   DOCKER_CLI_EXPERIMENTAL: enabled
 jobs:
@@ -47,7 +47,7 @@ jobs:
       
       - name: Test build works
         run: |
-          docker run --rm ${{ secrets.DOCKER_USERNAME }}/public-pool:test node --version
+          docker run --rm --entrypoint /bin/sh ${{ secrets.DOCKER_USERNAME }}/public-pool:test -c "node --version && echo 'Build successful!'"
       
       - name: Build multiarch and push to Docker Hub
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
