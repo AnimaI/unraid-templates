@@ -1,0 +1,65 @@
+name: Build bitcoind Docker image
+on:  
+  push:
+    branches:
+      - master
+    paths:
+      - 'bitcoind/**'
+      - '.github/workflows/build-bitcoind.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'bitcoind/**'
+      - '.github/workflows/build-bitcoind.yml'
+env:
+  DOCKER_CLI_EXPERIMENTAL: enabled
+jobs:
+  build:
+    name: Build bitcoind image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+      - name: Checkout project
+        uses: actions/checkout@v3
+      
+      - name: Set VERSION from env
+        run: echo "VERSION=$(cat bitcoind/VERSION)" >> $GITHUB_ENV
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        id: qemu
+      
+      - name: Setup Docker buildx action
+        uses: docker/setup-buildx-action@v2
+        id: buildx
+      
+      - name: Show available Docker buildx platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      
+      - name: Test build in x64
+        run: |
+          cd bitcoind
+          docker buildx build \
+          --platform linux/amd64 \
+          --build-arg VERSION=${{ env.VERSION }} \
+          --tag ${{ secrets.DOCKER_USERNAME }}/bitcoind:test \
+          --output "type=docker" .
+      
+      - name: Test build okay
+        run: |
+          docker run --rm ${{ secrets.DOCKER_USERNAME }}/bitcoind:test --version \
+          | grep ${{ env.VERSION }}
+      
+      - name: Build multiarch and push to Docker Hub
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          cd bitcoind
+          docker buildx build \
+          --platform $(cat PLATFORMS | tr '\n' ',') \
+          --build-arg VERSION=${{ env.VERSION }} \
+          --tag ${{ secrets.DOCKER_USERNAME }}/bitcoind:${{ env.VERSION }} \
+          --tag ${{ secrets.DOCKER_USERNAME }}/bitcoind:latest \
+          --output "type=registry" .
