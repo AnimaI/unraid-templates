@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>bitcoind</Name>
+  <Repository>d0ooo/bitcoind</Repository>
+  <Registry>https://hub.docker.com/r/d0ooo/bitcoind/</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://forums.unraid.net/topic/112959-support-d0ooo-templates-repo/</Support>
+  <Project>https://bitcoin.org/</Project>
+  <Overview>
+    Support the Bitcoin network by hosting your own node! This template provides a full Bitcoin Core Node, built with CMake in a verifiably trustless way.
+    [br][br]
+    To let other nodes in the network find your node, ensure port 8333 is forwarded from your router to the P2P port set below.
+    [br][br]
+    To customize all settings, create a file called bitcoin.conf in the data directory. Refer to https://github.com/bitcoin/bitcoin/blob/master/share/examples/bitcoin.conf for examples of settings you may apply.
+    [br][br]
+    This version is built using the new CMake build system introduced in Bitcoin Core v29.0.
+  </Overview>
+  <Category>Tools: Network:Other Crypto:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/AnimaI/unraid-templates/refs/heads/master/bitcoind.xml</TemplateURL>
+  <Icon>https://github.com/AnimaI/unraid-templates/raw/master/bitcoind/img/bitcoind.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Description>
+    Support the Bitcoin network by hosting your own node! This template provides a full Bitcoin Core node with the new CMake build system.
+  </Description>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>8333</HostPort>
+        <ContainerPort>8333</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+      <Port>
+        <HostPort>8332</HostPort>
+        <ContainerPort>8332</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/bitcoin/core/</HostDir>
+      <ContainerDir>/.bitcoin/</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment/>
+  <Labels/>
+  <Config Name="P2P TCP" Target="8333" Default="8333" Mode="tcp" Description="Port to listen for incoming node connections" Type="Port" Display="always" Required="true" Mask="false">8333</Config>
+  <Config Name="Local RPC" Target="8332" Default="8332" Mode="tcp" Description="Port to listen for RPC connections (Optional)" Type="Port" Display="always" Required="false" Mask="false">8332</Config>
+  <Config Name="Data" Target="/.bitcoin/" Default="/mnt/user/bitcoin/" Mode="rw" Description="Blockchain and database storage. Requires at least 600 GiB free disk." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/bitcoin/core/</Config>
+</Container>
