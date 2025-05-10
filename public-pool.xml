@@ -2,7 +2,7 @@
 <Container version="2">
   <Name>public-pool</Name>
   <Repository>animai/public-pool</Repository>
-  <Registry>https://github.com/AnimaI/unraid-templates/tree/master/public-pool</Registry>
+  <Registry>https://github.com/animai/unraid-templates/tree/master/public-pool</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
@@ -21,8 +21,8 @@ The ports shown below (3333, 3334, 8080) are used internally and can be mapped t
 </Overview>
   <Category>Tools:Utilities Network:Other Crypto:</Category>
   <WebUI>http://[IP]:[PORT:8080]/</WebUI>
-  <TemplateURL>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/public-pool.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/AnimaI/unraid-templates/master/public-pool/img/public-pool.png</Icon>
+  <TemplateURL>https://raw.githubusercontent.com/animai/unraid-templates/master/public-pool/public-pool.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/animai/unraid-templates/master/public-pool/img/public-pool.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
