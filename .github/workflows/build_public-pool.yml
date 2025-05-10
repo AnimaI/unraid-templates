@@ -1,17 +1,18 @@
 name: Build public-pool Docker image
-on:  
+on:
+  workflow_dispatch:  # Manueller Trigger
   push:
     branches:
       - master
     paths:
       - 'public-pool/**'
-      - '.github/workflows/build-public-pool.yml'
+      - '.github/workflows/build_public-pool.yml'  # Korrigierter Dateiname
   pull_request:
     branches:
       - master
     paths:
       - 'public-pool/**'
-      - '.github/workflows/build-public-pool.yml'
+      - '.github/workflows/build_public-pool.yml'  # Korrigierter Dateiname
 env:
   DOCKER_CLI_EXPERIMENTAL: enabled
 jobs:
