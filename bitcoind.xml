@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>bitcoind</Name>
-  <Repository>d0ooo/bitcoind</Repository>
-  <Registry>https://hub.docker.com/r/d0ooo/bitcoind/</Registry>
+  <Repository>animai/bitcoind</Repository>
+  <Registry>https://hub.docker.com/r/animai/bitcoind/</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://forums.unraid.net/topic/112959-support-d0ooo-templates-repo/</Support>
+  <Support>https://forums.unraid.net/topic/112959-support-animai-templates-repo/</Support>
   <Project>https://bitcoin.org/</Project>
   <Overview>
     Support the Bitcoin network by hosting your own node! This template provides a full Bitcoin Core Node, built with CMake in a verifiably trustless way.
