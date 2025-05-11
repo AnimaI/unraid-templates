@@ -1,18 +1,18 @@
 name: Build bitcoind Docker image
 on:
-  workflow_dispatch:  # Manueller Trigger
+  workflow_dispatch:
   push:
     branches:
       - master
     paths:
       - 'bitcoind/**'
-      - '.github/workflows/build_bitcoind.yml'  # Korrigierter Dateiname
+      - '.github/workflows/build_bitcoind.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'bitcoind/**'
-      - '.github/workflows/build_bitcoind.yml'  # Korrigierter Dateiname
+      - '.github/workflows/build_bitcoind.yml'
 env:
   DOCKER_CLI_EXPERIMENTAL: enabled
 jobs:
@@ -62,5 +62,4 @@ jobs:
           --platform $(cat PLATFORMS | tr '\n' ',') \
           --build-arg VERSION=${{ env.VERSION }} \
           --tag ${{ secrets.DOCKER_USERNAME }}/bitcoind:${{ env.VERSION }} \
-          --tag ${{ secrets.DOCKER_USERNAME }}/bitcoind:latest \
           --output "type=registry" .
