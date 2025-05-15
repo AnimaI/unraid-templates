@@ -4,7 +4,7 @@ Docker container templates for Bitcoin infrastructure on Unraid systems.
 
 ## Templates
 
-- [bitcoind](https://github.com/bitcoin/bitcoin) *(in development)*
+- [bitcoind](https://github.com/bitcoin/bitcoin) *(available)*
   - Full Bitcoin Core node for Unraid
   - Don't trust, verify! A full Bitcoin Core node to maintain your autonomy
   - Based on original [bitcoin](https://github.com/bitcoin/bitcoin)
