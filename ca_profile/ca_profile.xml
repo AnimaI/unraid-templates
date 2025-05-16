@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Maintainer>
+  <Icon>https://raw.githubusercontent.com/ich777/unraid-templates/master/animai/images/avatar.jpg</Icon>
+  <Profile>
+    Docker container templates for Bitcoin infrastructure on Unraid systems.
+  </Profile>
+  <DonateLink>https://www.paypal.com/donate/?hosted_button_id=8L2DNWLVUFNGJ</DonateLink>
+  <DonateText>If you like my work please consider Donating.</DonateText>
+</Maintainer>
