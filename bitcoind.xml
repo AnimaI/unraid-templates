@@ -2,7 +2,7 @@
 <Container version="2">
   <Name>bitcoind</Name>
   <Repository>animai/bitcoind</Repository>
-  <Registry>https://hub.docker.com/r/animai/bitcoind/</Registry>
+  <Registry>https://github.com/animai/unraid-templates/tree/master/bitcoind</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
