@@ -2,21 +2,17 @@
 <Container version="2">
   <Name>bitcoind</Name>
   <Repository>animai/bitcoind</Repository>
-  <Registry>https://github.com/animai/unraid-templates/tree/master/bitcoind</Registry>
+  <Registry>https://hub.docker.com/r/animai/bitcoind</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://forums.unraid.net/forum/55-general-support/</Support>
+  <Support>https://forums.unraid.net/topic/190254-animaiunraid-templates/</Support>
   <Project>https://bitcoin.org/</Project>
-  <Overview>
-    Support the Bitcoin network by hosting your own node! This template provides a full Bitcoin Core Node, built with CMake in a verifiably trustless way.
-    [br][br]
-    To let other nodes in the network find your node, ensure port 8333 is forwarded from your router to the P2P port set below.
-    [br][br]
-    To customize all settings, create a file called bitcoin.conf in the data directory. Refer to https://github.com/bitcoin/bitcoin/blob/master/share/examples/bitcoin.conf for examples of settings you may apply.
-    [br][br]
-    This version is built using the new CMake build system introduced in Bitcoin Core v29.0.
+  <Overview>#### Support the Bitcoin network by hosting your own BTC node! [br]
+This template provides a full Bitcoin Core Node, built with CMake in a verifiably trustless way.
+To let other nodes in the network find your node, ensure port 8333 is forwarded from your router to the P2P port set below.
+keeps the most recent blocks. This version is built using the new CMake build system introduced in Bitcoin Core v29.0.
   </Overview>
   <Category>Tools: Network:Other Crypto:</Category>
   <WebUI/>
@@ -48,14 +44,35 @@
   </Networking>
   <Data>
     <Volume>
-      <HostDir>/mnt/user/bitcoin/core/</HostDir>
+      <HostDir>/mnt/user/bitcoin/</HostDir>
       <ContainerDir>/.bitcoin/</ContainerDir>
       <Mode>rw</Mode>
     </Volume>
   </Data>
-  <Environment/>
+  <Environment>
+    <Variable>
+      <Name>BITCOIN_DATADIR</Name>
+      <Value>/mnt/user/bitcoin/</Value>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_LOGDIR</Name>
+      <Value>/mnt/user/bitcoin/</Value>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_PRUNE</Name>
+      <Value>0</Value>
+    </Variable>
+    <Variable>
+      <Name>BITCOIN_TXINDEX</Name>
+      <Value>1</Value>
+    </Variable>
+  </Environment>
   <Labels/>
   <Config Name="P2P TCP" Target="8333" Default="8333" Mode="tcp" Description="Port to listen for incoming node connections" Type="Port" Display="always" Required="true" Mask="false">8333</Config>
   <Config Name="Local RPC" Target="8332" Default="8332" Mode="tcp" Description="Port to listen for RPC connections (Optional)" Type="Port" Display="always" Required="false" Mask="false">8332</Config>
-  <Config Name="Data" Target="/.bitcoin/" Default="/mnt/user/bitcoin/" Mode="rw" Description="Blockchain and database storage. Requires at least 600 GiB free disk." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/bitcoin/core/</Config>
+  <Config Name="Data Directory" Target="/.bitcoin/" Default="/mnt/user/bitcoin/" Mode="rw" Description="Main directory for Bitcoin installation. All files will be stored here." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/bitcoin/</Config>
+  <Config Name="Log Directory" Target="BITCOIN_LOGDIR" Default="/mnt/user/bitcoin/" Mode="" Description="Directory for log files." Type="Variable" Display="always" Required="true" Mask="false">/mnt/user/bitcoin/</Config>
+  <Config Name="Blockchain Data Directory" Target="BITCOIN_DATADIR" Default="/mnt/user/bitcoin/" Mode="" Description="Directory for blockchain data. Please check the current blockchain size before running a full node to ensure sufficient disk space." Type="Variable" Display="always" Required="true" Mask="false">/mnt/user/bitcoin/</Config>
+  <Config Name="Pruning Mode" Target="BITCOIN_PRUNE" Default="0" Mode="" Description="prune=0 for full node (stores complete blockchain), or size in MB for pruned node (e.g., 20480 for 20GB)." Type="Variable" Display="always" Required="true" Mask="false">0</Config>
+  <Config Name="Transaction Index" Target="BITCOIN_TXINDEX" Default="1" Mode="" Description="Transaction index [txindex=]: 1 enables indexing all transactions (requires prune=0). #### IMPORTANT: Setting prune>0 with txindex=1 is not allowed (will cause bitcoind to fail at startup)" Type="Variable" Display="always" Required="false" Mask="false">1</Config>
 </Container>
