@@ -7,7 +7,7 @@
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://forums.unraid.net/forum/55-general-support/</Support>
+  <Support>https://forums.unraid.net/topic/190254-animaiunraid-templates/</Support>
   <Project>https://github.com/benjamin-wilson/public-pool</Project>
   <Overview>Run your own solo MINING POOL with web UI using public-pool &amp; public-pool-ui. This Unraid template supports custom IP, ports, and direct Bitcoin node integration.
 
