@@ -44,8 +44,8 @@ RUN export CONFIG_SITE=/bitcoin/depends/$(/bitcoin/depends/config.guess)/share/c
     -DWITH_ZMQ=ON \
     -DBUILD_BENCH=OFF \
     -DINSTALL_MAN=OFF \
-    -DCMAKE_CXX_FLAGS="-O3 -march=native -mtune=native -pipe -fdata-sections -ffunction-sections -fno-plt -flto -fuse-linker-plugin -ffast-math -funroll-loops -fno-stack-check -fomit-frame-pointer" \
-    -DCMAKE_C_FLAGS="-O3 -march=native -mtune=native -pipe -fdata-sections -ffunction-sections -fno-plt -flto -fuse-linker-plugin -ffast-math -funroll-loops -fno-stack-check -fomit-frame-pointer" \
+    -DCMAKE_CXX_FLAGS="-O2 -pipe -fdata-sections -ffunction-sections" \
+    -DCMAKE_C_FLAGS="-O2 -pipe -fdata-sections -ffunction-sections" \
     -DCMAKE_EXE_LINKER_FLAGS="-Wl,--gc-sections -Wl,--strip-all"
 
 RUN make -j"$(($(nproc)+1))"
@@ -65,9 +65,11 @@ COPY --from=build /tmp/bitcoin-install/usr/local/ /usr/local/
 
 RUN mkdir -p /.bitcoin
 COPY --from=build /bitcoin/share/examples/bitcoin.conf /.bitcoin/bitcoin.conf
+COPY start-bitcoind.sh /start-bitcoind.sh
+RUN chmod +x /start-bitcoind.sh
 
 VOLUME ["/.bitcoin"]
 
 EXPOSE 8332 8333 18332 18333 18444
 
-ENTRYPOINT ["/usr/local/bin/bitcoind", "-printtoconsole"]
+ENTRYPOINT ["/start-bitcoind.sh"]
