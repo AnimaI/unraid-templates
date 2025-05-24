@@ -90,8 +90,7 @@ If you like this project and want to support future work, I would appreciate a d
 
 ##
 
-<br clear="both">
-
+<br clear="both">(Lightning Bitcoin)
 <a href="https://getalby.com/p/animai" target="_blank">
   <img align="left" height="200" src="https://raw.githubusercontent.com/AnimaI/SMD-Manager/main/docs/img/qr-alby.svg" />
 </a>
@@ -102,7 +101,7 @@ If you like this project and want to support future work, I would appreciate a d
 
 ###
 
-<h4 align="left"><a href="https://getalby.com/p/animai">animai@getalby.com</a></h4>
+<h4 align="left"><a href="https://getalby.com/p/animai">animai@getalby.com</a></h4></p>
 
 ###
 
